@@ -79,18 +79,17 @@ test('addFrameScript', t => {
 	t.is(t.context.mc.currentFrame, 1);
 });
 
-test('removeFrameScript', t => {
-	t.context.mc.totalFrames = 2;
-	t.context.mc.addFrameScript(1, () => {
-		t.context.mc.stop();
-	});
-	t.context.mc.play();
-	t.context.mc.tick();
-	t.is(t.context.mc.currentFrame, 1);
-	t.context.mc.removeFrameScript(1);
-	t.context.mc.tick();
-	t.is(t.context.mc.currentFrame, 1);
-	t.context.mc.play();
-	t.context.mc.tick();
+test('add label to frame', t => {
+	t.context.mc.totalFrames = 10;
+	t.context.mc.addLabelToFrame('test', 8);
+	t.context.mc.gotoAndStop('test');
+	t.is(t.context.mc.currentFrame, 8);
+});
+
+test('remove label from frame', t => {
+	t.context.mc.totalFrames = 10;
+	t.context.mc.addLabelToFrame('test', 8);
+	t.context.mc.removeLabelFromFrame('test');
+	t.context.mc.gotoAndStop('test');
 	t.is(t.context.mc.currentFrame, 0);
 });

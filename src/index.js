@@ -75,11 +75,12 @@ class Movieclip {
 		this._isPlaying = false;
 		this._shouldRender = false;
 		this._framesScripts = [];
+		this._labels = [];
 	}
 
 	/** 
 	 * Moves head to *frame* and starts playing
-	 * @param {number} frame
+	 * @param {number|string} frame
 	*/
 	gotoAndPlay(frame) {
 		this.currentFrame = this.validateFrame(frame);
@@ -88,7 +89,7 @@ class Movieclip {
 
 	/** 
 	 * Moves head to *frame* and stops there
-	 * @param {number} frame
+	 * @param {number|string} frame
 	*/
 	gotoAndStop(frame) {
 		this.currentFrame = this.validateFrame(frame);
@@ -102,12 +103,50 @@ class Movieclip {
 	 * @returns {number}
 	*/
 	validateFrame(frame) {
-		if (frame < 0) {
-			frame = 0;
-		} else if (frame > (this.totalFrames - 1)) {
-			frame = this.totalFrames - 1;
+		if (typeof frame === 'string') {
+			if (this._labels[ frame ] !== undefined) {
+				frame = this._labels[ frame ];
+			} else {
+				frame = 0;
+			}
+		} else {
+			if (frame < 0) {
+				frame = 0;
+			} else if (frame > (this.totalFrames - 1)) {
+				frame = this.totalFrames - 1;
+			}
 		}
 		return frame;
+	}
+
+	/** 
+	 * Adds a *label* to a *frame*
+	 * @param {string} label
+	 * @param {number} frame
+	*/
+	addLabelToFrame(label, frame) {
+		if (typeof frame === 'string') {
+			throw new Error('frame parameter must not be a string');
+		}
+
+		frame = this.validateFrame(frame);
+
+		if (typeof label !== 'string') {
+			throw new Error('label parameter is not a string');
+		}
+
+		this._labels[ label ] = frame;
+	}
+
+	/** 
+	 * Removes a *label* from a *frame*
+	 * @param {string} label
+	 * @param {number} frame
+	*/
+	removeLabelFromFrame(label) {
+		if (this._labels[ label ] !== undefined) {
+			delete this._labels[ label ];
+		}
 	}
 
 	/** 
