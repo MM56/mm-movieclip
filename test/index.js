@@ -11,6 +11,10 @@ test('idle test', t => {
 	t.is(t.context.mc.currentFrame, 0);
 });
 
+test('default fps', t => {
+	t.is(t.context.mc.fps, 30);
+});
+
 test('validate frame <', t => {
 	t.context.mc.totalFrames = 1;
 	t.is(t.context.mc.validateFrame(-3), 0);
@@ -92,4 +96,11 @@ test('remove label from frame', t => {
 	t.context.mc.removeLabelFromFrame('test');
 	t.context.mc.gotoAndStop('test');
 	t.is(t.context.mc.currentFrame, 0);
+});
+
+test('get label for frame', t => {
+	t.context.mc.totalFrames = 10;
+	t.context.mc.addLabelToFrame('in', 0);
+	t.context.mc.addLabelToFrame('out', 5);
+	t.is(t.context.mc.getLabelForFrame(5), 'out');
 });

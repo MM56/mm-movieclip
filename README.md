@@ -27,6 +27,8 @@ Render.init();
 Render.add(render, mc.fps);
 ```
 
+Check docs for more advanced usage
+
 ## Build
 
 To build the sources with `babel` in `./lib` directory :
